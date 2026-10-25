@@ -1,0 +1,6 @@
+{
+  "name": "Eye of Agamotto",
+  "description": "Focus Today. Build Tomorrow. Personal operating system uniting tasks, calendar, learning roadmaps, projects, career tracking, knowledge notes, and AI intelligence.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,208 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile settings and preferences",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Authenticated user UID" },
+        "name": { "type": "string", "description": "Display name" },
+        "email": { "type": "string", "description": "User email address" },
+        "title": { "type": "string", "description": "Professional title or role" },
+        "avatarUrl": { "type": "string", "description": "Avatar image URL" },
+        "accentColor": { "type": "string", "enum": ["emerald", "teal", "indigo", "amber"], "description": "UI accent theme" },
+        "dailyTargetTasks": { "type": "number", "description": "Target daily task count" },
+        "timezone": { "type": "string", "description": "User local timezone" }
+      },
+      "required": ["uid", "name", "email", "title", "accentColor", "dailyTargetTasks", "timezone"]
+    },
+    "Task": {
+      "title": "Task",
+      "description": "User actionable task item",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique task ID" },
+        "userId": { "type": "string", "description": "Owner UID" },
+        "title": { "type": "string", "maxLength": 200, "description": "Task headline" },
+        "description": { "type": "string", "maxLength": 2000, "description": "Task description details" },
+        "priority": { "type": "string", "enum": ["urgent", "high", "medium", "low"], "description": "Priority urgency" },
+        "category": { "type": "string", "enum": ["work", "study", "career", "personal"], "description": "Task domain category" },
+        "status": { "type": "string", "enum": ["todo", "in_progress", "in_review", "completed"], "description": "Task workflow status" },
+        "dueDate": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$", "description": "Due date formatted YYYY-MM-DD" },
+        "dueTime": { "type": "string", "description": "Due time formatted HH:MM" },
+        "estimatedMinutes": { "type": "number", "description": "Estimated work duration in minutes" },
+        "recurring": { "type": "string", "enum": ["none", "daily", "weekly", "monthly"], "description": "Recurrence rule" },
+        "tags": { "type": "array", "description": "Categorization labels" },
+        "linkedProjectId": { "type": "string", "description": "Optional linked project ID" },
+        "completedAt": { "type": "string", "description": "Timestamp when marked completed" },
+        "createdAt": { "type": "string", "description": "Creation timestamp" }
+      },
+      "required": ["id", "userId", "title", "priority", "category", "status", "dueDate", "recurring", "tags", "createdAt"]
+    },
+    "CalendarEvent": {
+      "title": "CalendarEvent",
+      "description": "User scheduled timeline event or task block",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Event ID" },
+        "userId": { "type": "string", "description": "Owner UID" },
+        "title": { "type": "string", "maxLength": 200, "description": "Event title" },
+        "description": { "type": "string", "maxLength": 2000, "description": "Event description" },
+        "type": { "type": "string", "enum": ["event", "task_block", "exam", "interview", "deep_work", "study"], "description": "Event classification" },
+        "startDate": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$", "description": "Start date YYYY-MM-DD" },
+        "startTime": { "type": "string", "description": "Start time HH:MM" },
+        "endDate": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$", "description": "End date YYYY-MM-DD" },
+        "endTime": { "type": "string", "description": "End time HH:MM" },
+        "location": { "type": "string", "description": "Physical or virtual location" },
+        "color": { "type": "string", "description": "Display badge accent color" },
+        "linkedTaskId": { "type": "string", "description": "Linked task identifier" }
+      },
+      "required": ["id", "userId", "title", "type", "startDate", "startTime", "endDate", "endTime"]
+    },
+    "LearningRoadmap": {
+      "title": "LearningRoadmap",
+      "description": "Interactive study roadmap with modules and topics",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Roadmap ID" },
+        "userId": { "type": "string", "description": "Owner UID" },
+        "title": { "type": "string", "description": "Roadmap title" },
+        "shortCode": { "type": "string", "description": "Short code identifier" },
+        "badge": { "type": "string", "description": "Badge description" },
+        "summary": { "type": "string", "description": "Executive summary" },
+        "iconName": { "type": "string", "description": "Lucide icon key" },
+        "colorAccent": { "type": "string", "description": "Tailwind color accent key" },
+        "modules": { "type": "array", "description": "Array of learning modules and topics" }
+      },
+      "required": ["id", "userId", "title", "shortCode", "badge", "summary", "iconName", "colorAccent", "modules"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "Portfolio or engineering project tracking",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Project ID" },
+        "userId": { "type": "string", "description": "Owner UID" },
+        "name": { "type": "string", "description": "Project name" },
+        "description": { "type": "string", "description": "Project description" },
+        "status": { "type": "string", "enum": ["planning", "active", "in_review", "completed"], "description": "Project state" },
+        "category": { "type": "string", "description": "Domain category" },
+        "deadline": { "type": "string", "description": "Deadline date" },
+        "progress": { "type": "number", "description": "Completion percentage 0-100" },
+        "tags": { "type": "array", "description": "Stack tags" },
+        "milestones": { "type": "array", "description": "Milestone list" },
+        "isDemoData": { "type": "boolean", "description": "Demo data flag" },
+        "repoUrl": { "type": "string", "description": "Repository URL" },
+        "liveUrl": { "type": "string", "description": "Live deployment URL" },
+        "createdAt": { "type": "string", "description": "Created ISO timestamp" }
+      },
+      "required": ["id", "userId", "name", "description", "status", "category", "deadline", "progress", "tags", "milestones", "createdAt"]
+    },
+    "JobApplication": {
+      "title": "JobApplication",
+      "description": "Career job application tracker document",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Job application ID" },
+        "userId": { "type": "string", "description": "Owner UID" },
+        "company": { "type": "string", "description": "Company name" },
+        "role": { "type": "string", "description": "Role title" },
+        "location": { "type": "string", "description": "Location description" },
+        "applicationDate": { "type": "string", "description": "Date applied" },
+        "status": { "type": "string", "enum": ["bookmarked", "applied", "interviewing", "offered", "rejected"], "description": "Pipeline status" },
+        "nextStep": { "type": "string", "description": "Upcoming action" },
+        "followUpDate": { "type": "string", "description": "Follow up target date" },
+        "salaryRange": { "type": "string", "description": "Compensation range" },
+        "notes": { "type": "string", "description": "Interview notes" },
+        "link": { "type": "string", "description": "Job posting URL" },
+        "contactPerson": { "type": "string", "description": "Recruiter/referrer name" }
+      },
+      "required": ["id", "userId", "company", "role", "location", "applicationDate", "status", "nextStep", "followUpDate"]
+    },
+    "Note": {
+      "title": "Note",
+      "description": "Knowledge base note document",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Note ID" },
+        "userId": { "type": "string", "description": "Owner UID" },
+        "folderId": { "type": "string", "description": "Enclosing folder ID" },
+        "title": { "type": "string", "description": "Note headline" },
+        "content": { "type": "string", "description": "Markdown body content" },
+        "tags": { "type": "array", "description": "Tags list" },
+        "isBookmarked": { "type": "boolean", "description": "Starred flag" },
+        "isPinned": { "type": "boolean", "description": "Pinned flag" },
+        "updatedAt": { "type": "string", "description": "Last edit timestamp" },
+        "createdAt": { "type": "string", "description": "Created timestamp" }
+      },
+      "required": ["id", "userId", "folderId", "title", "content", "tags", "isBookmarked", "isPinned", "updatedAt", "createdAt"]
+    },
+    "NoteFolder": {
+      "title": "NoteFolder",
+      "description": "Folder categorization for notes",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Folder ID" },
+        "userId": { "type": "string", "description": "Owner UID" },
+        "name": { "type": "string", "description": "Folder display name" },
+        "color": { "type": "string", "description": "Accent color" },
+        "icon": { "type": "string", "description": "Icon key" }
+      },
+      "required": ["id", "userId", "name", "color", "icon"]
+    },
+    "Goal": {
+      "title": "Goal",
+      "description": "Quarterly / annual OKR goal document",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Goal ID" },
+        "userId": { "type": "string", "description": "Owner UID" },
+        "title": { "type": "string", "description": "Objective title" },
+        "timeframe": { "type": "string", "enum": ["annual", "quarterly", "monthly"], "description": "Time horizon" },
+        "category": { "type": "string", "enum": ["learning", "career", "projects", "health"], "description": "Goal category" },
+        "dueDate": { "type": "string", "description": "Target date" },
+        "keyResults": { "type": "array", "description": "Key results array" },
+        "notes": { "type": "string", "description": "Goal notes" }
+      },
+      "required": ["id", "userId", "title", "timeframe", "category", "dueDate", "keyResults"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile settings and preferences"
+    },
+    "/users/{userId}/tasks/{taskId}": {
+      "schema": "Task",
+      "description": "User personal tasks"
+    },
+    "/users/{userId}/calendar_events/{eventId}": {
+      "schema": "CalendarEvent",
+      "description": "User calendar events and deep work timeblocks"
+    },
+    "/users/{userId}/roadmaps/{roadmapId}": {
+      "schema": "LearningRoadmap",
+      "description": "User learning roadmaps and study progression"
+    },
+    "/users/{userId}/projects/{projectId}": {
+      "schema": "Project",
+      "description": "User projects and milestone tracking"
+    },
+    "/users/{userId}/job_applications/{jobId}": {
+      "schema": "JobApplication",
+      "description": "User career job applications and interview pipeline"
+    },
+    "/users/{userId}/notes/{noteId}": {
+      "schema": "Note",
+      "description": "User knowledge base notes"
+    },
+    "/users/{userId}/note_folders/{folderId}": {
+      "schema": "NoteFolder",
+      "description": "User knowledge base folders"
+    },
+    "/users/{userId}/goals/{goalId}": {
+      "schema": "Goal",
+      "description": "User personal OKRs and target goals"
+    }
+  }
+}

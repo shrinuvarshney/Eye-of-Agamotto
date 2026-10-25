@@ -1,0 +1,64 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Global Safety Net: Default-deny all unhandled paths
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Validate connectivity endpoint
+    match /test/connection {
+      allow read: if true;
+    }
+
+    // User-scoped data fortress: All entities reside within /users/{userId}
+    match /users/{userId} {
+      allow read, write: if isOwner(userId) && isValidId(userId);
+
+      match /tasks/{taskId} {
+        allow read, write: if isOwner(userId) && isValidId(taskId);
+      }
+
+      match /calendar_events/{eventId} {
+        allow read, write: if isOwner(userId) && isValidId(eventId);
+      }
+
+      match /roadmaps/{roadmapId} {
+        allow read, write: if isOwner(userId) && isValidId(roadmapId);
+      }
+
+      match /projects/{projectId} {
+        allow read, write: if isOwner(userId) && isValidId(projectId);
+      }
+
+      match /job_applications/{jobId} {
+        allow read, write: if isOwner(userId) && isValidId(jobId);
+      }
+
+      match /notes/{noteId} {
+        allow read, write: if isOwner(userId) && isValidId(noteId);
+      }
+
+      match /note_folders/{folderId} {
+        allow read, write: if isOwner(userId) && isValidId(folderId);
+      }
+
+      match /goals/{goalId} {
+        allow read, write: if isOwner(userId) && isValidId(goalId);
+      }
+    }
+  }
+}
